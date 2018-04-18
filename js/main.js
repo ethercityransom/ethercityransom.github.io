@@ -38,7 +38,6 @@ function setup() {
     $("#raffle-button").click(function() {
         contract.investment(web3.eth.defaultAccount, function(error, result) {
           if (!error)
-              alert(result);
               contract.withdraw(result, function(error, result2) {
                   if (!error)
                       console.log(result2);
@@ -100,4 +99,3 @@ function getTimeRemaining(endtime) {
     'seconds': seconds
   };
 }
-
