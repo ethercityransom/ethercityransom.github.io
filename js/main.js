@@ -294,8 +294,13 @@ function setup() {
             if (!error) {
 		console.log(result + ":" + (result/20).toFixed(0) + ":" + (result/2).toFixed(0));
                 $("#jackpotBalance").text(formatEth(result));
-//                $("#minBuy").text(parseInt(formatEth((result/20).toFixed(0))));
-//                $("#maxBuy").text(parseInt(formatEth((result/2).toFixed(0))));
+		var minbuy = (result/20).toFixed(0);
+		var maxbuy = (result/2).toFixed(0);
+		console.log(typeof(result));
+		console.log(typeof(minbuy));
+		console.log(typeof(maxbuy));
+                $("#minBuy").text(web3.fromWei(minbuy, "ether"));
+                $("#maxBuy").text(web3.fromWei(maxbuy, "ether"));
 	    }
         });
 
@@ -307,6 +312,17 @@ function setup() {
         });
 
     }
+
+    $("#purchaseButton").click(function() {
+        var value = web3.toWei($("#purchaseAmount").val(), "ether");
+        contract.purchase({value: value}, function(error, result) {
+            if (!error)
+                console.log(result);
+        });
+    });
+
+    $("#minBuy").click(function() { $("#purchaseAmount").val($("#minBuy").html()); });
+    $("#maxBuy").click(function() { $("#purchaseAmount").val($("#maxBuy").html()); });
 
     refresh();
     setInterval(refresh, 1000);
