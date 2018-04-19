@@ -329,29 +329,6 @@ window.addEventListener("load", function() {
 });
 
 
-
-window.addEventListener("load", function() {
-    if (typeof web3 !== "undefined") {
-        web3 = new Web3(web3.currentProvider);
-        web3.version.getNetwork(function(error, result) {
-            if (!error) {
-                if (result == "1") {
-                    setup();
-                } else {
-                    $("#error").text("You must be on the Main Ethereum Network to use this website.");
-                    $("#error").toggle(true);
-                }
-            }
-        });
-    } else {
-        $("#error").html('Please install <a class="text-success" href="https://metamask.io/">MetaMask</a> to use this website.');
-        $("#error").toggle(true);
-        web3 = new Web3(new Web3.providers.HttpProvider("https://mainnet.infura.io/EDcemR2TA0oKZOWw2VZv"));
-        setup();
-    }
-});
-
-
 function getTimeRemaining(endtime) {
   var t = Date.parse(endtime) - Date.parse(new Date());
   var seconds = Math.floor((t / 1000) % 60);
