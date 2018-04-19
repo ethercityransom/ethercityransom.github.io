@@ -9,17 +9,12 @@
   </head>
   <body>
     <div class="container my-4">
-      <h1 class="text-center" id="jackpotBalance">Unknown</h1>
-      <div class="buybox">
-	<div class="pricebox">
-	Min Buy: <span id="minBuy">Unknown</span><br />
-	Max Buy: <span id="maxBuy">Unknown</span><br />
-        </div>
-	<div class="inputbox">
-	  <input type=text id='purchaseAmount' /><br/>
-	  <button id='purchaseButton' value="Buy">Buy!</button>
-        </div>
-      </div>
+      <h1 class="text-center">Jackpot Size</h1>
+      <h3 class="text-center" id="jackpotBalance">Unknown</h3>
+      <br/>
+      <h3 class="text-center">Current Jackpot Owner</h3>
+      <h4 id="jackpotClaim">Unknown</h4>
+      <h3 class="text-center">Countdown Until Jackpot</h3>
       <div id="clockdiv">
         <div>
           <span class="days"></span>
@@ -36,6 +31,21 @@
         <div>
           <span class="seconds"></span>
           <div class="smalltext">Seconds</div>
+        </div>
+      </div>
+	<br />
+	<br />
+      <div id="buybox">
+	<div id="pricebox">
+	<div class="left price"><strong>Min Buy:</strong> <br/><a href="#"><span id="minBuy">Unknown</span></a></div>
+	<div class="left price"><strong>Max Buy:</strong> <br/><a href="#"><span id="maxBuy">Unknown</span></a></div>
+	<div class="clear"></div>
+        </div>
+	<br/>
+	<div class="inputbox">
+	  Purchase Amount:<br/>
+	  <input type=text id='purchaseAmount' /><br/>
+	  <button id='purchaseButton' value="Buy">Buy!</button>
         </div>
       </div>
     </div>

@@ -311,6 +311,12 @@ function setup() {
             }
         });
 
+        contract.jackpotLastQualified(function(error, result) {
+            if (!error) {
+		$("#jackpotClaim").html(result);
+            }
+        });
+
     }
 
     $("#purchaseButton").click(function() {
