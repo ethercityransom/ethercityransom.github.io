@@ -31,10 +31,23 @@ h1{
 button {
   background-color: rgba(32, 46, 71, 0.7);
   border: 1px solid #000;
+  border-radius: 3px;
   color: #fff;
   height: 45px;
+  margin: 5px;
   width: 150px;
 }
+
+input {
+  background-color: rgba(32, 46, 71, 0.7);
+  border: 1px solid #000;
+  border-radius: 3px;
+  color: #fff;
+  height: 45px;
+  margin: 5px;
+  width: 150px;
+}
+
 #gameclock, #jackpotclock{
 	font-family: sans-serif;
 	color: #fff;
@@ -75,4 +88,8 @@ button {
 
 .price {
 	width: 250px;
+}
+
+#claim {
+	disabled: true;
 }

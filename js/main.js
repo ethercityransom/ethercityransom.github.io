@@ -292,13 +292,9 @@ function setup() {
 
         contract.jackpotBalance(function(error, result) {
             if (!error) {
-		console.log(result + ":" + (result/20).toFixed(0) + ":" + (result/2).toFixed(0));
                 $("#jackpotBalance").text(formatEth(result));
 		var minbuy = (result/20).toFixed(0);
 		var maxbuy = (result/2).toFixed(0);
-		console.log(typeof(result));
-		console.log(typeof(minbuy));
-		console.log(typeof(maxbuy));
                 $("#minBuy").text(web3.fromWei(minbuy, "ether"));
                 $("#maxBuy").text(web3.fromWei(maxbuy, "ether"));
 	    }
@@ -308,7 +304,6 @@ function setup() {
             if (!error) {
 	        var startTime = new Date((result.c[0]*1000));
 		var now = new Date();
-//		now.setHours(0,0,0,0);
 		if( startTime > now) {
 			// Hide Everything, show count down clock
 			$("#play").hide();
@@ -323,9 +318,17 @@ function setup() {
 
         contract.lastAction(function(error, result) {
             if (!error) {
-	        var deadline = new Date((result.c[0] + (6 * 60 * 60))*1000);
-		initializeClock('jackpotclock', deadline);
+	        var claimTime = new Date(((result.c[0]+(6*60*60))*1000));
+		var now2 = new Date();
+		if( claimTime <= now2) {
+			$("#claimbutton").prop("disabled", false);
+			console.log("if " + claimTime + " : " + now2);
+		}else{
+			$("#claimbutton").prop("disabled", true);
+			console.log("else " + claimTime + " : " + now2);
+		}
             }
+  		initializeClock('jackpotclock', claimTime);
         });
 
         contract.jackpotLastQualified(function(error, result) {
@@ -339,6 +342,13 @@ function setup() {
     $("#purchaseButton").click(function() {
         var value = web3.toWei($("#purchaseAmount").val(), "ether");
         contract.purchase({value: value}, function(error, result) {
+            if (!error)
+                console.log(result);
+        });
+    });
+
+    $("#claimButton").click(function() {
+        contract.claim(function(error, result) {
             if (!error)
                 console.log(result);
         });
