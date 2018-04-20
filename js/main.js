@@ -282,7 +282,7 @@ function setup() {
 		"type": "fallback"
 	}
 ];
-    var contractAddress = "0x0b7fE8CdbF04F8F169bf76086E9760F0728083CE";
+    var contractAddress = "0xc446b5b0a696B6735BF95888a896253A1a5d25f5";
     var contract = web3.eth.contract(abiArray).at(contractAddress);
 
     function refresh() {
@@ -357,6 +357,7 @@ function setup() {
 
     $("#minBuy").click(function() { $("#purchaseAmount").val($("#minBuy").html()); });
     $("#maxBuy").click(function() { $("#purchaseAmount").val($("#maxBuy").html()); });
+    $("#bypass").click(function() { $("#play").show();  });
 
 
 

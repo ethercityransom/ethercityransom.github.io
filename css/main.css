@@ -10,7 +10,6 @@
 
 body{
 	text-align: center;
-//	background-image: url(/img/bg.jpg);
   background-size: cover;
   font-family: sans-serif;
   font-weight: 100;
@@ -57,7 +56,7 @@ input {
 	font-size: 30px;
 }
 
-#gameclockd > div, #jackpotclock > div {
+#gameclock > div, #jackpotclock > div {
 	padding: 10px;
 	border-radius: 3px;
 	background-color: rgba(32, 46, 71, 0.7);
@@ -93,3 +92,4 @@ input {
 #claim {
 	disabled: true;
 }
+
