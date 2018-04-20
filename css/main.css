@@ -35,7 +35,7 @@ button {
   height: 45px;
   width: 150px;
 }
-#clockdiv{
+#gameclock, #jackpotclock{
 	font-family: sans-serif;
 	color: #fff;
 	display: inline-block;
@@ -44,14 +44,14 @@ button {
 	font-size: 30px;
 }
 
-#clockdiv > div{
+#gameclockd > div, #jackpotclock > div {
 	padding: 10px;
 	border-radius: 3px;
 	background-color: rgba(32, 46, 71, 0.7);
 	display: inline-block;
 }
 
-#clockdiv div > span{
+#gameclock div > span, #jackpotclock div > span{
 	padding: 15px;
 	border-radius: 3px;
 	background-color: rgba(107, 126, 158, 0.7);

@@ -304,10 +304,27 @@ function setup() {
 	    }
         });
 
+        contract.gameStartTime(function(error, result) {
+            if (!error) {
+	        var startTime = new Date((result.c[0]*1000));
+		var now = new Date();
+//		now.setHours(0,0,0,0);
+		if( startTime > now) {
+			// Hide Everything, show count down clock
+			$("#play").hide();
+			initializeClock('gameclock', startTime);
+			$("#wait").show();
+		}else{
+			$("#wait").hide();
+			$("#play").show();
+		}
+            }
+        });
+
         contract.lastAction(function(error, result) {
             if (!error) {
 	        var deadline = new Date((result.c[0] + (6 * 60 * 60))*1000);
-		initializeClock('clockdiv', deadline);
+		initializeClock('jackpotclock', deadline);
             }
         });
 
@@ -327,8 +344,11 @@ function setup() {
         });
     });
 
+
     $("#minBuy").click(function() { $("#purchaseAmount").val($("#minBuy").html()); });
     $("#maxBuy").click(function() { $("#purchaseAmount").val($("#maxBuy").html()); });
+
+
 
     refresh();
     setInterval(refresh, 1000);
