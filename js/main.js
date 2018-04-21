@@ -17,6 +17,20 @@ function setup() {
 	{
 		"constant": true,
 		"inputs": [],
+		"name": "jackpotLastWinner",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
 		"name": "jackpotBalance",
 		"outputs": [
 			{
@@ -66,8 +80,8 @@ function setup() {
 		"inputs": [],
 		"name": "killme",
 		"outputs": [],
-		"payable": true,
-		"stateMutability": "payable",
+		"payable": false,
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -105,6 +119,34 @@ function setup() {
 	},
 	{
 		"constant": true,
+		"inputs": [],
+		"name": "timeBeforeJackpot",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "buyFee",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
 		"inputs": [
 			{
 				"name": "",
@@ -120,6 +162,10 @@ function setup() {
 			{
 				"name": "owner",
 				"type": "address"
+			},
+			{
+				"name": "game",
+				"type": "uint256"
 			}
 		],
 		"payable": false,
@@ -138,7 +184,7 @@ function setup() {
 	{
 		"constant": true,
 		"inputs": [],
-		"name": "devFeeBalance",
+		"name": "jackpotLastPayout",
 		"outputs": [
 			{
 				"name": "",
@@ -161,7 +207,35 @@ function setup() {
 	{
 		"constant": true,
 		"inputs": [],
-		"name": "numberOfUsers",
+		"name": "gameIteration",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "maxBuy",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "minBuy",
 		"outputs": [
 			{
 				"name": "",
@@ -205,8 +279,8 @@ function setup() {
 		],
 		"name": "changeStartTime",
 		"outputs": [],
-		"payable": true,
-		"stateMutability": "payable",
+		"payable": false,
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -231,7 +305,35 @@ function setup() {
 	{
 		"constant": true,
 		"inputs": [],
-		"name": "seedAmount",
+		"name": "gameKillTime",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "jackpotCount",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "timeBetweenGames",
 		"outputs": [
 			{
 				"name": "",
@@ -271,6 +373,34 @@ function setup() {
 		"type": "function"
 	},
 	{
+		"constant": true,
+		"inputs": [],
+		"name": "timeIncreasePerTx",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_time",
+				"type": "uint256"
+			}
+		],
+		"name": "updateTimeBetweenGames",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -282,7 +412,8 @@ function setup() {
 		"type": "fallback"
 	}
 ];
-    var contractAddress = "0xc446b5b0a696B6735BF95888a896253A1a5d25f5";
+
+    var contractAddress = "0x207Ff440D3e5dE257317004D8D2D51E34EF473C9";
     var contract = web3.eth.contract(abiArray).at(contractAddress);
 
     function refresh() {
@@ -318,17 +449,21 @@ function setup() {
 
         contract.lastAction(function(error, result) {
             if (!error) {
-	        var claimTime = new Date(((result.c[0]+(6*60*60))*1000));
-		var now2 = new Date();
-		if( claimTime <= now2) {
-			$("#claimbutton").prop("disabled", false);
-			console.log("if " + claimTime + " : " + now2);
-		}else{
-			$("#claimbutton").prop("disabled", true);
-			console.log("else " + claimTime + " : " + now2);
-		}
+	        contract.timeBeforeJackpot(function(error, timetojackpot) {
+        	    if (!error) {
+		        var claimTime = new Date((parseInt(result.c[0])+parseInt(timetojackpot)) * 1000);
+			var now2 = new Date();
+			if( claimTime <= now2) {
+				$("#claimbutton").prop("disabled", false);
+				console.log("if " + claimTime + " : " + now2);
+			}else{
+				$("#claimbutton").prop("disabled", true);
+				console.log("else " + claimTime + " : " + now2);
+			}
+			initializeClock('jackpotclock', claimTime);
+		    }
+	        });
             }
-  		initializeClock('jackpotclock', claimTime);
         });
 
         contract.jackpotLastQualified(function(error, result) {
