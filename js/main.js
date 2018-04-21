@@ -413,7 +413,7 @@ function setup() {
 	}
 ];
 
-    var contractAddress = "0x207Ff440D3e5dE257317004D8D2D51E34EF473C9";
+    var contractAddress = "0x14a820E0884c583f91fEddb6eC16E03880922054";
     var contract = web3.eth.contract(abiArray).at(contractAddress);
 
     function refresh() {
